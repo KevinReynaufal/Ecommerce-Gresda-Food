@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -94,47 +97,43 @@
         <br>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-                if(isset($_SESSION['delete']))
-                {
+                <?php
+                if (isset($_SESSION['delete'])) {
                     echo $_SESSION['delete'];
                     unset($_SESSION['delete']);
                 }
-            ?>
+                ?>
             </div>
             <div class="overview-boxes">
-            <table class="tbl-full">
-                <tr>
-                    <th>S.N.</th>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-                <?php 
+                <table class="tbl-full">
+                    <tr>
+                        <th>S.N.</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php
                     //Query to Get all Admin
                     $sql = "SELECT * FROM tbl_users";
                     //Execute the Query
                     $res = mysqli_query($conn, $sql);
                     //CHeck whether the Query is Executed of Not
-                    if($res==TRUE)
-                    {
+                    if ($res == TRUE) {
                         // Count Rows to CHeck whether we have data in database or not
                         $count = mysqli_num_rows($res); // Function to get all the rows in database
-                        $sn=1; //Create a Variable and Assign the value
+                        $sn = 1; //Create a Variable and Assign the value
                         //CHeck the num of rows
-                        if($count>0)
-                        {
+                        if ($count > 0) {
                             //WE HAve data in database
-                            while($rows=mysqli_fetch_assoc($res))
-                            {
+                            while ($rows = mysqli_fetch_assoc($res)) {
                                 //Using While loop to get all the data from database.
                                 //And while loop will run as long as we have data in database
                                 //Get individual DAta
-                                $id=$rows['id'];
-                                $username=$rows['username'];
-                                $email=$rows['email'];
+                                $id = $rows['id'];
+                                $username = $rows['username'];
+                                $email = $rows['email'];
                                 //Display the Values in our Table
-                                ?>
+                    ?>
                                 <tr>
                                     <td><?php echo $sn++; ?>. </td>
                                     <td><?php echo $username; ?></td>
@@ -144,10 +143,10 @@
                                     </td>
                                 </tr>
                     <?php   }
-                        }else{
+                        } else {
                             //We Do not Have Data in Database
                         }
-                    }?>
+                    } ?>
                 </table>
             </div>
         </div>
@@ -156,7 +155,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");

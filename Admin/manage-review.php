@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -94,25 +97,24 @@
         <br>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-                if(isset($_SESSION['delete']))
-                {
+                <?php
+                if (isset($_SESSION['delete'])) {
                     echo $_SESSION['delete'];
                     unset($_SESSION['delete']);
                 }
-            ?>
+                ?>
             </div>
             <div class="overview-boxes">
-            <table class="tbl-full">
-                <tr>
-                    <th>S.N.</th>
-                    <th>Order Id</th>
-                    <th>Name</th>
-                    <th>Message</th>
-                    <th>Active</th>
-                    <th>Action</th>
-                </tr>
-                <?php 
+                <table class="tbl-full">
+                    <tr>
+                        <th>S.N.</th>
+                        <th>Order Id</th>
+                        <th>Name</th>
+                        <th>Message</th>
+                        <th>Active</th>
+                        <th>Action</th>
+                    </tr>
+                    <?php
                     //Create a SQL Query to Get all the Food
                     $sql = "SELECT * FROM tbl_review r, tbl_users u WHERE u.id=r.user_id order by r.order_id";
                     //Execute the qUery
@@ -120,13 +122,11 @@
                     //Count Rows to check whether we have foods or not
                     $count = mysqli_num_rows($res);
                     //Create Serial Number VAriable and Set Default VAlue as 1
-                    $sn=1;
-                    if($count>0)
-                    {
+                    $sn = 1;
+                    if ($count > 0) {
                         //We have food in Database
                         //Get the Foods from Database and Display
-                        while($row=mysqli_fetch_assoc($res))
-                        {
+                        while ($row = mysqli_fetch_assoc($res)) {
                             //get the values from individual columns
                             $id = $row['id'];
                             $orderid = $row['order_id'];
@@ -134,7 +134,7 @@
                             $rating = $row['rating'];
                             $message = $row['message'];
                             $active = $row['active'];
-                            ?>
+                    ?>
                             <tr>
                                 <td class='ctg-manage-food'><?php echo $sn++; ?>. </td>
                                 <td class='ctg-manage-food'><?php echo $orderid; ?></td>
@@ -145,13 +145,13 @@
                                     <a href="<?php echo SITEURL; ?>Admin/update-order.php?id=<?php echo $orderid; ?>" class="btn-secondary">Update Review</a>
                                 </td>
                             </tr>
-                        <?php
+                    <?php
                         }
-                    }else{
+                    } else {
                         //Food not Added in Database
                         echo "<tr> <td colspan='7' class='error'> Contact not Added Yet. </td> </tr>";
                     }
-                ?>
+                    ?>
                 </table>
             </div>
         </div>
@@ -160,7 +160,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");

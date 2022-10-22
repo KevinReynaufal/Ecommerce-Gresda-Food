@@ -1,6 +1,9 @@
 <?php
 include('../Assets/Config/config.php');
 include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 

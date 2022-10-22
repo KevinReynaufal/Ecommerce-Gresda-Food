@@ -1,4 +1,5 @@
 <?php include('Assets/Config/config.php');
+error_reporting(0);
 if (isset($_SESSION['username']) && isset($_SESSION['id'])) {
     header("Location:" . SITEURL . "Customer/index.php");
 } else {

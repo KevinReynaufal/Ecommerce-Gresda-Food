@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -93,18 +96,16 @@
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-            if(isset($_SESSION['upload']))
-            {
-                echo $_SESSION['upload'];
-                unset($_SESSION['upload']);
-            }
-            if(isset($_SESSION['add']))
-            {
-                echo $_SESSION['add'];
-                unset($_SESSION['add']);
-            }
-            ?>
+                <?php
+                if (isset($_SESSION['upload'])) {
+                    echo $_SESSION['upload'];
+                    unset($_SESSION['upload']);
+                }
+                if (isset($_SESSION['add'])) {
+                    echo $_SESSION['add'];
+                    unset($_SESSION['add']);
+                }
+                ?>
             </div>
             <div class="overview-boxes">
                 <table class="tbl-full">
@@ -114,42 +115,38 @@
                             <td>
                                 <select name="category">
 
-                                    <?php 
-                                        //Create PHP Code to display categories from Database
-                                        //1. CReate SQL to get all active categories from database
-                                        $sql = "SELECT * FROM tbl_category WHERE active='Yes'";
-                                        
-                                        //Executing qUery
-                                        $res = mysqli_query($conn, $sql);
+                                    <?php
+                                    //Create PHP Code to display categories from Database
+                                    //1. CReate SQL to get all active categories from database
+                                    $sql = "SELECT * FROM tbl_category WHERE active='Yes'";
 
-                                        //Count Rows to check whether we have categories or not
-                                        $count = mysqli_num_rows($res);
+                                    //Executing qUery
+                                    $res = mysqli_query($conn, $sql);
 
-                                        //IF count is greater than zero, we have categories else we donot have categories
-                                        if($count>0)
-                                        {
-                                            //WE have categories
-                                            while($row=mysqli_fetch_assoc($res))
-                                            {
-                                                //get the details of categories
-                                                $category = $row['category'];
-                                                $name = $row['name'];
+                                    //Count Rows to check whether we have categories or not
+                                    $count = mysqli_num_rows($res);
 
-                                                ?>
+                                    //IF count is greater than zero, we have categories else we donot have categories
+                                    if ($count > 0) {
+                                        //WE have categories
+                                        while ($row = mysqli_fetch_assoc($res)) {
+                                            //get the details of categories
+                                            $category = $row['category'];
+                                            $name = $row['name'];
 
-                                                <option value="<?php echo $category; ?>"><?php echo $name; ?></option>
+                                    ?>
 
-                                                <?php
-                                            }
+                                            <option value="<?php echo $category; ?>"><?php echo $name; ?></option>
+
+                                        <?php
                                         }
-                                        else
-                                        {
-                                            //WE do not have category
-                                            ?>
-                                            <option value="0">No Category Found</option>
-                                            <?php
-                                        }
-                                        //2. Display on Drpopdown
+                                    } else {
+                                        //WE do not have category
+                                        ?>
+                                        <option value="0">No Category Found</option>
+                                    <?php
+                                    }
+                                    //2. Display on Drpopdown
                                     ?>
                                 </select>
                             </td>
@@ -181,11 +178,11 @@
                                 <input type="file" name="image">
                             </td>
                         </tr>
-                        
+
                         <tr>
                             <td>Active : </td>
                             <td>
-                                <input class="active" type="radio" name="active" value="Yes"> Yes 
+                                <input class="active" type="radio" name="active" value="Yes"> Yes
                                 <input class="active" type="radio" name="active" value="No"> No
                             </td>
                         </tr>
@@ -204,7 +201,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");
@@ -214,12 +211,11 @@
     </script>
 </body>
 
-</html> 
+</html>
 
-<?php 
+<?php
 //CHeck whether the button is clicked or not
-if(isset($_POST['submit']))
-{
+if (isset($_POST['submit'])) {
     //Add the Food in Database
     //echo "Clicked";
     //1. Get the DAta from Form
@@ -227,51 +223,43 @@ if(isset($_POST['submit']))
     $description = $_POST['description'];
     $price = $_POST['price'];
     $category = $_POST['category'];
-    if(isset($_POST['active']))
-    {
+    if (isset($_POST['active'])) {
         $active = $_POST['active'];
-    }
-    else
-    {
+    } else {
         $active = "No"; //Setting Default Value
     }
     //2. Upload the Image if selected
     //Check whether the select image is clicked or not and upload the image only if the image is selected
-    if(isset($_FILES['image']['name']))
-    {
+    if (isset($_FILES['image']['name'])) {
         //Get the details of the selected image
         $image_name = $_FILES['image']['name'];
         //Check Whether the Image is Selected or not and upload image only if selected
-        if($image_name!="")
-        {
+        if ($image_name != "") {
             // Image is SElected
             //A. REnamge the Image
             //Get the extension of selected image (jpg, png, gif, etc.) "vijay-thapa.jpg" vijay-thapa jpg
             $ext = end(explode('.', $image_name));
             // Create New Name for Image
-            $image_name = rand(0000,9999).".".$ext; //New Image Name May Be "Food-Name-657.jpg"
+            $image_name = rand(0000, 9999) . "." . $ext; //New Image Name May Be "Food-Name-657.jpg"
             //B. Upload the Image
             //Get the Src Path and DEstinaton path
             // Source path is the current location of the image
             $src = $_FILES['image']['tmp_name'];
             //Destination Path for the image to be uploaded
-            $dst = "../Assets/Images/all-menu/".$category."/".$image_name;
+            $dst = "../Assets/Images/all-menu/" . $category . "/" . $image_name;
             //Finally Uppload the food image
             $upload = move_uploaded_file($src, $dst);
             //check whether image uploaded of not
-            if($upload==false)
-            {
+            if ($upload == false) {
                 //Failed to Upload the image
                 //REdirect to Add Food Page with Error Message
                 $_SESSION['upload'] = "<div class='error'>Failed to Upload Image.</div>";
-                header('location:'.SITEURL.'Admin/add-food.php');
+                header('location:' . SITEURL . 'Admin/add-food.php');
                 //STop the process
                 die();
             }
         }
-    }
-    else
-    {
+    } else {
         $image_name = ""; //SEtting DEfault Value as blank
     }
     //3. Insert Into Database
@@ -289,19 +277,16 @@ if(isset($_POST['submit']))
     $res2 = mysqli_query($conn, $sql2);
     //CHeck whether data inserted or not
     //4. Redirect with MEssage to Manage Food page
-    if($res2==true)
-    {
+    if ($res2 == true) {
         //Query Executed and Category Added
         $_SESSION['add'] = "<div class='success'>Food Added Successfully.</div>";
         //Redirect to Manage Category Page
-        header('location:'.SITEURL.'Admin/add-food.php');
-    }
-    else
-    {
+        header('location:' . SITEURL . 'Admin/add-food.php');
+    } else {
         //Failed to Add CAtegory
         $_SESSION['add'] = "<div class='error'>Failed to Add Food.</div>";
         //Redirect to Manage Category Page
-        header('location:'.SITEURL.'Admin/add-food.php');
+        header('location:' . SITEURL . 'Admin/add-food.php');
     }
 }
 ?>

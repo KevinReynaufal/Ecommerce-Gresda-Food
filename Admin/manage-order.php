@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -94,25 +97,24 @@
         <br>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-                if(isset($_SESSION['update']))
-                {
+                <?php
+                if (isset($_SESSION['update'])) {
                     echo $_SESSION['update'];
                     unset($_SESSION['update']);
                 }
-            ?>
+                ?>
             </div>
             <div class="overview-boxes">
                 <table class="tbl-full">
-                <tr>
-                    <th>S.N.</th>
-                    <th>Id Order</th>
-                    <th>Customer Name</th>
-                    <th>Tanggal</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-                <?php 
+                    <tr>
+                        <th>S.N.</th>
+                        <th>Id Order</th>
+                        <th>Customer Name</th>
+                        <th>Tanggal</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    <?php
                     //Get all the orders from database
                     $sql = "SELECT * FROM tbl_cart c, tbl_users u  where u.id=c.user_id and c.cart_id order by c.order_id ASC"; // DIsplay the Latest Order at First
                     //Execute Query
@@ -120,58 +122,54 @@
                     //Count the Rows
                     $count = mysqli_num_rows($res);
                     $sn = 1; //Create a Serial Number and set its initail value as 1
-                    if($count>0)
-                    {
+                    if ($count > 0) {
                         //Order Available
-                        while($row=mysqli_fetch_assoc($res))
-                        {
+                        while ($row = mysqli_fetch_assoc($res)) {
                             //Get all the order details
                             $cart_id = $row['cart_id'];
                             $order_id = $row['order_id'];
                             $username = $row['username'];
                             $order_date = $row['tgl_order'];
                             $status = $row['status'];
-                            ?>
-                                <tr>
-                                    <td><?php echo $sn++; ?>. </td>
-                                    <td><?php echo $order_id; ?></td>
-                                    <td><?php echo $username; ?></td>
-                                    <td><?php echo $order_date; ?></td>
-                                    <td>
-                                        <?php 
-                                            // Ordered, On Delivery, Delivered, Cancelled
-                                            if($status=="Cart"){
-                                                echo "<label style='color: black;'>$status</label>";
-                                            }else if($status=="Payment"){
-                                                echo "<label style='color: blue;'>$status</label>";
-                                            }else if($status=="Confirmed"){
-                                                echo "<label style='color: red;'>$status</label>";
-                                            }else if($status=="Delivery"){
-                                                echo "<label style='color: red;'>$status</label>";
-                                            }elseif($status=="Review"){
-                                                echo "<label style='color: blue;'>$status</label>";
-                                            }elseif($status=="Finished"){
-                                                echo "<label style='color: green;'>$status</label>";
-                                            }elseif($status=="Canceled"){
-                                                echo "<label style='color: black;'>$status</label>";
-                                            }else{
-                                                echo "<label style='color: red;'>ERROR</label>";
-                                            }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <a href="<?php echo SITEURL; ?>admin/update-order.php?id=<?php echo $order_id; ?>" class="btn-secondary">Update Order</a>
-                                    </td>
-                                </tr>
-                            <?php
+                    ?>
+                            <tr>
+                                <td><?php echo $sn++; ?>. </td>
+                                <td><?php echo $order_id; ?></td>
+                                <td><?php echo $username; ?></td>
+                                <td><?php echo $order_date; ?></td>
+                                <td>
+                                    <?php
+                                    // Ordered, On Delivery, Delivered, Cancelled
+                                    if ($status == "Cart") {
+                                        echo "<label style='color: black;'>$status</label>";
+                                    } else if ($status == "Payment") {
+                                        echo "<label style='color: blue;'>$status</label>";
+                                    } else if ($status == "Confirmed") {
+                                        echo "<label style='color: red;'>$status</label>";
+                                    } else if ($status == "Delivery") {
+                                        echo "<label style='color: red;'>$status</label>";
+                                    } elseif ($status == "Review") {
+                                        echo "<label style='color: blue;'>$status</label>";
+                                    } elseif ($status == "Finished") {
+                                        echo "<label style='color: green;'>$status</label>";
+                                    } elseif ($status == "Canceled") {
+                                        echo "<label style='color: black;'>$status</label>";
+                                    } else {
+                                        echo "<label style='color: red;'>ERROR</label>";
+                                    }
+                                    ?>
+                                </td>
+                                <td>
+                                    <a href="<?php echo SITEURL; ?>admin/update-order.php?id=<?php echo $order_id; ?>" class="btn-secondary">Update Order</a>
+                                </td>
+                            </tr>
+                    <?php
                         }
-                    }
-                    else
-                    {
+                    } else {
                         //Order not Available
                         echo "<tr><td colspan='12' class='error'>Orders not Available</td></tr>";
                     }
-                ?>
+                    ?>
                 </table>
             </div>
         </div>
@@ -180,7 +178,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");

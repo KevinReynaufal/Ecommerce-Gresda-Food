@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -93,27 +96,23 @@
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-            if(isset($_GET['id']))
-            {
-                $id=$_GET['id'];
-            }
-            if(isset($_SESSION['change-pwd']))
-            {
-                echo $_SESSION['change-pwd'];
-                unset($_SESSION['change-pwd']);
-            }
-            if(isset($_SESSION['pwd-not-match']))
-            {
-                echo $_SESSION['pwd-not-match'];
-                unset($_SESSION['pwd-not-match']);
-            }
-            if(isset($_SESSION['user-not-found']))
-            {
-                echo $_SESSION['user-not-found'];
-                unset($_SESSION['user-not-found']);
-            }
-            ?>
+                <?php
+                if (isset($_GET['id'])) {
+                    $id = $_GET['id'];
+                }
+                if (isset($_SESSION['change-pwd'])) {
+                    echo $_SESSION['change-pwd'];
+                    unset($_SESSION['change-pwd']);
+                }
+                if (isset($_SESSION['pwd-not-match'])) {
+                    echo $_SESSION['pwd-not-match'];
+                    unset($_SESSION['pwd-not-match']);
+                }
+                if (isset($_SESSION['user-not-found'])) {
+                    echo $_SESSION['user-not-found'];
+                    unset($_SESSION['user-not-found']);
+                }
+                ?>
             </div>
             <div class="overview-boxes">
                 <table class="tbl-full">
@@ -151,7 +150,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");
@@ -163,74 +162,63 @@
 
 </html>
 
-<?php 
+<?php
 
-            //CHeck whether the Submit Button is Clicked on Not
-            if(isset($_POST['submit']))
-            {
-                //echo "CLicked";
-                //1. Get the DAta from Form
-                $id=$_POST['id'];
-                $current_password = md5($_POST['current_password']);
-                $new_password = md5($_POST['new_password']);
-                $confirm_password = md5($_POST['confirm_password']);
-                //2. Check whether the user with current ID and Current Password Exists or Not
-                $sql = "SELECT * FROM tbl_admin WHERE id=$id AND password='$current_password'";
-                //Execute the Query
-                $res = mysqli_query($conn, $sql);
-                if($res==true)
-                {
-                    //CHeck whether data is available or not
-                    $count=mysqli_num_rows($res);
-                    if($count==1)
-                    {
-                        //User Exists and Password Can be CHanged
-                        //echo "User FOund";
-                        //Check whether the new password and confirm match or not
-                        if($new_password==$confirm_password)
-                        {
-                            //Update the Password
-                            $sql2 = "UPDATE tbl_admin SET 
+//CHeck whether the Submit Button is Clicked on Not
+if (isset($_POST['submit'])) {
+    //echo "CLicked";
+    //1. Get the DAta from Form
+    $id = $_POST['id'];
+    $current_password = md5($_POST['current_password']);
+    $new_password = md5($_POST['new_password']);
+    $confirm_password = md5($_POST['confirm_password']);
+    //2. Check whether the user with current ID and Current Password Exists or Not
+    $sql = "SELECT * FROM tbl_admin WHERE id=$id AND password='$current_password'";
+    //Execute the Query
+    $res = mysqli_query($conn, $sql);
+    if ($res == true) {
+        //CHeck whether data is available or not
+        $count = mysqli_num_rows($res);
+        if ($count == 1) {
+            //User Exists and Password Can be CHanged
+            //echo "User FOund";
+            //Check whether the new password and confirm match or not
+            if ($new_password == $confirm_password) {
+                //Update the Password
+                $sql2 = "UPDATE tbl_admin SET 
                                 password='$new_password' 
                                 WHERE id=$id
                             ";
-                            //Execute the Query
-                            $res2 = mysqli_query($conn, $sql2);
-                            //CHeck whether the query exeuted or not
-                            if($res2==true)
-                            {
-                                //Display Succes Message
-                                //REdirect to Manage Admin Page with Success Message
-                                $_SESSION['change-pwd'] = "<div class='success'>Password Changed Successfully. </div>";
-                                //Redirect the User
-                                header('location:'.SITEURL.'Admin/manage-admin.php');
-                            }
-                            else
-                            {
-                                //Display Error Message
-                                //REdirect to Manage Admin Page with Error Message
-                                $_SESSION['change-pwd'] = "<div class='error'>Failed to Change Password. </div>";
-                                //Redirect the User
-                                header('location:'.SITEURL.'Admin/manage-admin.php');
-                            }
-                        }
-                        else
-                        {
-                            //REdirect to Manage Admin Page with Error Message
-                            $_SESSION['pwd-not-match'] = "<div class='error'>New password doesn't Match. </div>";
-                            //Redirect the User
-                            header('location:'.SITEURL.'Admin/manage-admin.php');
-                        }
-                    }
-                    else
-                    {
-                        //User Does not Exist Set Message and REdirect
-                        $_SESSION['user-not-found'] = "<div class='error'>Old password doesn't Match. </div>";
-                        //Redirect the User
-                        header('location:'.SITEURL.'Admin/manage-admin.php');
-                    }
+                //Execute the Query
+                $res2 = mysqli_query($conn, $sql2);
+                //CHeck whether the query exeuted or not
+                if ($res2 == true) {
+                    //Display Succes Message
+                    //REdirect to Manage Admin Page with Success Message
+                    $_SESSION['change-pwd'] = "<div class='success'>Password Changed Successfully. </div>";
+                    //Redirect the User
+                    header('location:' . SITEURL . 'Admin/manage-admin.php');
+                } else {
+                    //Display Error Message
+                    //REdirect to Manage Admin Page with Error Message
+                    $_SESSION['change-pwd'] = "<div class='error'>Failed to Change Password. </div>";
+                    //Redirect the User
+                    header('location:' . SITEURL . 'Admin/manage-admin.php');
                 }
-                //3. CHeck Whether the New Password and Confirm Password Match or not
-                //4. Change PAssword if all above is true
+            } else {
+                //REdirect to Manage Admin Page with Error Message
+                $_SESSION['pwd-not-match'] = "<div class='error'>New password doesn't Match. </div>";
+                //Redirect the User
+                header('location:' . SITEURL . 'Admin/manage-admin.php');
             }
+        } else {
+            //User Does not Exist Set Message and REdirect
+            $_SESSION['user-not-found'] = "<div class='error'>Old password doesn't Match. </div>";
+            //Redirect the User
+            header('location:' . SITEURL . 'Admin/manage-admin.php');
+        }
+    }
+    //3. CHeck Whether the New Password and Confirm Password Match or not
+    //4. Change PAssword if all above is true
+}
 ?>

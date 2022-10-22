@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -93,18 +96,16 @@
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-            if(isset($_SESSION['add']))
-            {
-                echo $_SESSION['add'];
-                unset($_SESSION['add']);
-            }
-            if(isset($_SESSION['upload']))
-            {
-                echo $_SESSION['upload'];
-                unset($_SESSION['upload']);
-            }
-            ?>
+                <?php
+                if (isset($_SESSION['add'])) {
+                    echo $_SESSION['add'];
+                    unset($_SESSION['add']);
+                }
+                if (isset($_SESSION['upload'])) {
+                    echo $_SESSION['upload'];
+                    unset($_SESSION['upload']);
+                }
+                ?>
             </div>
             <div class="overview-boxes">
                 <table class="tbl-full">
@@ -124,8 +125,8 @@
                         <tr>
                             <td>Active : </td>
                             <td>
-                                <input class='active' type="radio" name="active" value="Yes"> Yes 
-                                <input class='active' type="radio" name="active" value="No"> No 
+                                <input class='active' type="radio" name="active" value="Yes"> Yes
+                                <input class='active' type="radio" name="active" value="No"> No
                             </td>
                         </tr>
                         <tr>
@@ -142,7 +143,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");
@@ -150,53 +151,46 @@
                 sidebarBtn.classList.replace("bx-menu-alt-left", "bx-menu");
         }
     </script>
-    
+
 </body>
 
 </html>
 
-<?php 
-    //CHeck whether the Submit Button is Clicked or Not
-    if(isset($_POST['submit']))
-    {
-        //echo "Clicked";
-        //1. Get the Value from CAtegory Form
-        $name = $_POST['name'];
-        $category = $_POST['category'];
-        //For Radio input, we need to check whether the button is selected or not
-        if(isset($_POST['active']))
-        {
-            $active = $_POST['active'];
-        }
-        else
-        {
-            $active = "No";
-        }
-        //Check whether the image is selected or not and set the value for image name accoridingly
-        //print_r($_FILES['image']);
-        //die();//Break the Code Here
-        //2. Create SQL Query to Insert CAtegory into Database
-        $sql = "INSERT INTO tbl_category SET 
+<?php
+//CHeck whether the Submit Button is Clicked or Not
+if (isset($_POST['submit'])) {
+    //echo "Clicked";
+    //1. Get the Value from CAtegory Form
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    //For Radio input, we need to check whether the button is selected or not
+    if (isset($_POST['active'])) {
+        $active = $_POST['active'];
+    } else {
+        $active = "No";
+    }
+    //Check whether the image is selected or not and set the value for image name accoridingly
+    //print_r($_FILES['image']);
+    //die();//Break the Code Here
+    //2. Create SQL Query to Insert CAtegory into Database
+    $sql = "INSERT INTO tbl_category SET 
             name='$name',
             category='$category',
             active='$active'
         ";
-        //3. Execute the Query and Save in Database
-        $res = mysqli_query($conn, $sql);
-        //4. Check whether the query executed or not and data added or not
-        if($res==true)
-        {
-            //Query Executed and Category Added
-            $_SESSION['add'] = "<div class='success'>Category Added Successfully.</div>";
-            //Redirect to Manage Category Page
-            header('location:'.SITEURL.'Admin/manage-category.php');
-        }
-        else
-        {
-            //Failed to Add CAtegory
-            $_SESSION['add'] = "<div class='error'>Failed to Add Category.</div>";
-            //Redirect to Manage Category Page
-            header('location:'.SITEURL.'Admin/add-category.php');
-        }
+    //3. Execute the Query and Save in Database
+    $res = mysqli_query($conn, $sql);
+    //4. Check whether the query executed or not and data added or not
+    if ($res == true) {
+        //Query Executed and Category Added
+        $_SESSION['add'] = "<div class='success'>Category Added Successfully.</div>";
+        //Redirect to Manage Category Page
+        header('location:' . SITEURL . 'Admin/manage-category.php');
+    } else {
+        //Failed to Add CAtegory
+        $_SESSION['add'] = "<div class='error'>Failed to Add Category.</div>";
+        //Redirect to Manage Category Page
+        header('location:' . SITEURL . 'Admin/add-category.php');
     }
+}
 ?>

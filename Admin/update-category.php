@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -93,10 +96,9 @@
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
+                <?php
                 //Check whether the id is set or not
-                if(isset($_GET['id']))
-                {
+                if (isset($_GET['id'])) {
                     //Get the ID and all other details
                     //echo "Getting the Data";
                     $id = $_GET['id'];
@@ -106,39 +108,32 @@
                     $res = mysqli_query($conn, $sql);
                     //Count the Rows to check whether the id is valid or not
                     $count = mysqli_num_rows($res);
-                    if($count==1)
-                    {
+                    if ($count == 1) {
                         //Get all the data
                         $row = mysqli_fetch_assoc($res);
                         $name = $row['name'];
                         $category = $row['category'];
                         $active = $row['active'];
-                    }
-                    else
-                    {
+                    } else {
                         //redirect to manage category with session message
                         $_SESSION['no-category-found'] = "<div class='error'>Category not Found.</div>";
-                        header('location:'.SITEURL.'Admin/manage-category.php');
+                        header('location:' . SITEURL . 'Admin/manage-category.php');
                     }
-                }
-                else
-                {
+                } else {
                     //redirect to Manage CAtegory
-                    header('location:'.SITEURL.'aAmin/manage-category.php');
+                    header('location:' . SITEURL . 'aAmin/manage-category.php');
                 }
-            ?>
-            <?php 
-            if(isset($_SESSION['no-category-found']))
-            {
-                echo $_SESSION['no-category-found'];
-                unset($_SESSION['no-category-found']);
-            }
-            if(isset($_SESSION['update']))
-            {
-                echo $_SESSION['update'];
-                unset($_SESSION['update']);
-            }
-            ?>
+                ?>
+                <?php
+                if (isset($_SESSION['no-category-found'])) {
+                    echo $_SESSION['no-category-found'];
+                    unset($_SESSION['no-category-found']);
+                }
+                if (isset($_SESSION['update'])) {
+                    echo $_SESSION['update'];
+                    unset($_SESSION['update']);
+                }
+                ?>
             </div>
             <div class="overview-boxes">
                 <table class="tbl-full">
@@ -158,8 +153,12 @@
                         <tr>
                             <td>Active: </td>
                             <td>
-                                <input <?php if($active=="Yes"){echo "checked";} ?> class='active' type="radio" name="active" value="Yes"> Yes 
-                                <input <?php if($active=="No"){echo "checked";} ?> class='active' type="radio" name="active" value="No"> No 
+                                <input <?php if ($active == "Yes") {
+                                            echo "checked";
+                                        } ?> class='active' type="radio" name="active" value="Yes"> Yes
+                                <input <?php if ($active == "No") {
+                                            echo "checked";
+                                        } ?> class='active' type="radio" name="active" value="No"> No
                             </td>
                         </tr>
                         <tr>
@@ -177,7 +176,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");
@@ -185,43 +184,39 @@
                 sidebarBtn.classList.replace("bx-menu-alt-left", "bx-menu");
         }
     </script>
-    
+
 </body>
 
 </html>
 
-<?php 
-    if(isset($_POST['submit']))
-    {
-        //echo "Clicked";
-        //1. Get all the values from our form
-        $id = $_POST['id'];
-        $name = $_POST['name'];
-        $category = $_POST['category'];
-        $active = $_POST['active'];
-        //3. Update the Database
-        $sql2 = "UPDATE tbl_category SET 
+<?php
+if (isset($_POST['submit'])) {
+    //echo "Clicked";
+    //1. Get all the values from our form
+    $id = $_POST['id'];
+    $name = $_POST['name'];
+    $category = $_POST['category'];
+    $active = $_POST['active'];
+    //3. Update the Database
+    $sql2 = "UPDATE tbl_category SET 
             name = '$name',
             category = '$category',
             active = '$active' 
             WHERE id=$id
             
         ";
-        //Execute the Query
-        $res2 = mysqli_query($conn, $sql2);
-        //4. REdirect to Manage Category with MEssage
-        //CHeck whether executed or not
-        if($res2==true)
-        {
-            //Category Updated
-            $_SESSION['update'] = "<div class='success'>Category Updated Successfully.</div>";
-            header('location:'.SITEURL.'Admin/manage-category.php');
-        }
-        else
-        {
-            //failed to update category
-            $_SESSION['update'] = "<div class='error'>Failed to Update Category.</div>";
-            header('location:'.SITEURL.'Admin/manage-category.php');
-        }
+    //Execute the Query
+    $res2 = mysqli_query($conn, $sql2);
+    //4. REdirect to Manage Category with MEssage
+    //CHeck whether executed or not
+    if ($res2 == true) {
+        //Category Updated
+        $_SESSION['update'] = "<div class='success'>Category Updated Successfully.</div>";
+        header('location:' . SITEURL . 'Admin/manage-category.php');
+    } else {
+        //failed to update category
+        $_SESSION['update'] = "<div class='error'>Failed to Update Category.</div>";
+        header('location:' . SITEURL . 'Admin/manage-category.php');
     }
+}
 ?>

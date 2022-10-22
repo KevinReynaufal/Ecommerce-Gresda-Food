@@ -2,6 +2,9 @@
 include('../Assets/Config/config.php');
 include('Assets/login-check.php');
 
+error_reporting(0);
+session_start();
+
 $orderid = $_GET['id'];
 $liatcust = mysqli_query($conn, "SELECT * from tbl_users u, tbl_cart c where order_id='$orderid' and u.id=c.user_id");
 $checkdb = mysqli_fetch_array($liatcust);

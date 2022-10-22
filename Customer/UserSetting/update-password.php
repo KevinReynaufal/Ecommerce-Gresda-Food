@@ -2,6 +2,8 @@
 
 include('../../Assets/Config/config.php');
 
+error_reporting(0);
+
 if (isset($_SESSION['id'])) {
     $id = $_SESSION['id'];
 ?>

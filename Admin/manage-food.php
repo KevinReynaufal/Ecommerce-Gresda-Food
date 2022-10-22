@@ -1,6 +1,9 @@
-<?php 
-    include('../Assets/Config/config.php'); 
-    include('Assets/login-check.php');
+<?php
+include('../Assets/Config/config.php');
+include('Assets/login-check.php');
+
+error_reporting(0);
+session_start();
 ?>
 <html>
 
@@ -93,37 +96,32 @@
         </nav>
         <div class="home-content">
             <div class="overview-boxes">
-            <?php 
-                if(isset($_SESSION['add']))
-                {
+                <?php
+                if (isset($_SESSION['add'])) {
                     echo $_SESSION['add'];
                     unset($_SESSION['add']);
                 }
-                if(isset($_SESSION['delete']))
-                {
+                if (isset($_SESSION['delete'])) {
                     echo $_SESSION['delete'];
                     unset($_SESSION['delete']);
                 }
-                if(isset($_SESSION['upload']))
-                {
+                if (isset($_SESSION['upload'])) {
                     echo $_SESSION['upload'];
                     unset($_SESSION['upload']);
                 }
-                if(isset($_SESSION['unauthorize']))
-                {
+                if (isset($_SESSION['unauthorize'])) {
                     echo $_SESSION['unauthorize'];
                     unset($_SESSION['unauthorize']);
                 }
-                if(isset($_SESSION['update']))
-                {
+                if (isset($_SESSION['update'])) {
                     echo $_SESSION['update'];
                     unset($_SESSION['update']);
                 }
-            ?>
+                ?>
             </div>
             <div class="overview-boxes">
-            <a href="<?php echo SITEURL; ?>Admin/add-food.php" class="btn-primary">Add Food</a>
-            <br><br><br>
+                <a href="<?php echo SITEURL; ?>Admin/add-food.php" class="btn-primary">Add Food</a>
+                <br><br><br>
                 <table class="tbl-full">
                     <tr>
                         <th>S.N.</th>
@@ -135,68 +133,61 @@
                         <th>Active</th>
                         <th>Actions</th>
                     </tr>
-                    <?php 
-                        //Create a SQL Query to Get all the Food
-                        $sql = "SELECT * FROM tbl_food";
-                        //Execute the qUery
-                        $res = mysqli_query($conn, $sql);
-                        //Count Rows to check whether we have foods or not
-                        $count = mysqli_num_rows($res);
-                        //Create Serial Number VAriable and Set Default VAlue as 1
-                        $sn=1;
-                        if($count>0)
-                        {
-                            //We have food in Database
-                            //Get the Foods from Database and Display
-                            while($row=mysqli_fetch_assoc($res))
-                            {
-                                //get the values from individual columns
-                                $id = $row['food_id'];
-                                $category = $row['category'];
-                                $name = $row['name'];
-                                $price = $row['price'];
-                                $description = $row['description'];
-                                $image_name = $row['image_name'];
-                                $active = $row['active'];
-                                ?>
-                                <tr>
-                                    <td class='ctg-manage-food'><?php echo $sn++; ?>. </td>
-                                    <td class='ctg-manage-food'><?php echo $category; ?></td>
-                                    <td class='ctg-manage-food'><?php echo $name; ?></td>
-                                    <td class='desc-manage-food'><?php echo $description; ?></td>
-                                    <td class='ctg-manage-food'><?php echo $price; ?></td>
-                                    <td>
-                                        <?php  
-                                            //CHeck whether we have image or not
-                                            if($image_name=="")
-                                            {
-                                                //WE do not have image, DIslpay Error Message
-                                                echo "<div class='error'>Image not Added.</div>";
-                                            }
-                                            else
-                                            {
-                                                //WE Have Image, Display Image
-                                                ?>
-                                                <img src="<?php echo SITEURL; ?>Assets/Images/all-menu/<?php echo $category; ?>/<?php echo $image_name; ?>" width="100px">
-                                                <?php
-                                            }
-                                        ?>
-                                    </td>
-                                    <td class='ctg-manage-food'><?php echo $active; ?></td>
-                                    <td>
-                                        <a href="<?php echo SITEURL; ?>Admin/update-food.php?id=<?php echo $id; ?>" class="btn-secondary">Update Food</a>
-                                        <br>
-                                        <a href="<?php echo SITEURL; ?>Admin/delete-food.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>&category=<?php echo $category; ?>" class="btn-danger">Delete Food</a>
-                                    </td>
-                                </tr>
-                                <?php
-                            }
+                    <?php
+                    //Create a SQL Query to Get all the Food
+                    $sql = "SELECT * FROM tbl_food";
+                    //Execute the qUery
+                    $res = mysqli_query($conn, $sql);
+                    //Count Rows to check whether we have foods or not
+                    $count = mysqli_num_rows($res);
+                    //Create Serial Number VAriable and Set Default VAlue as 1
+                    $sn = 1;
+                    if ($count > 0) {
+                        //We have food in Database
+                        //Get the Foods from Database and Display
+                        while ($row = mysqli_fetch_assoc($res)) {
+                            //get the values from individual columns
+                            $id = $row['food_id'];
+                            $category = $row['category'];
+                            $name = $row['name'];
+                            $price = $row['price'];
+                            $description = $row['description'];
+                            $image_name = $row['image_name'];
+                            $active = $row['active'];
+                    ?>
+                            <tr>
+                                <td class='ctg-manage-food'><?php echo $sn++; ?>. </td>
+                                <td class='ctg-manage-food'><?php echo $category; ?></td>
+                                <td class='ctg-manage-food'><?php echo $name; ?></td>
+                                <td class='desc-manage-food'><?php echo $description; ?></td>
+                                <td class='ctg-manage-food'><?php echo $price; ?></td>
+                                <td>
+                                    <?php
+                                    //CHeck whether we have image or not
+                                    if ($image_name == "") {
+                                        //WE do not have image, DIslpay Error Message
+                                        echo "<div class='error'>Image not Added.</div>";
+                                    } else {
+                                        //WE Have Image, Display Image
+                                    ?>
+                                        <img src="<?php echo SITEURL; ?>Assets/Images/all-menu/<?php echo $category; ?>/<?php echo $image_name; ?>" width="100px">
+                                    <?php
+                                    }
+                                    ?>
+                                </td>
+                                <td class='ctg-manage-food'><?php echo $active; ?></td>
+                                <td>
+                                    <a href="<?php echo SITEURL; ?>Admin/update-food.php?id=<?php echo $id; ?>" class="btn-secondary">Update Food</a>
+                                    <br>
+                                    <a href="<?php echo SITEURL; ?>Admin/delete-food.php?id=<?php echo $id; ?>&image_name=<?php echo $image_name; ?>&category=<?php echo $category; ?>" class="btn-danger">Delete Food</a>
+                                </td>
+                            </tr>
+                    <?php
                         }
-                        else
-                        {
-                            //Food not Added in Database
-                            echo "<tr> <td colspan='7' class='error'> Food not Added Yet. </td> </tr>";
-                        }
+                    } else {
+                        //Food not Added in Database
+                        echo "<tr> <td colspan='7' class='error'> Food not Added Yet. </td> </tr>";
+                    }
                     ?>
                 </table>
             </div>
@@ -206,7 +197,7 @@
     <script>
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".sidebarBtn");
-        sidebarBtn.onclick = function () {
+        sidebarBtn.onclick = function() {
             sidebar.classList.toggle("active");
             if (sidebar.classList.contains("active")) {
                 sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-left");
