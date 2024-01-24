@@ -2,10 +2,10 @@
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Waktu pembuatan: 22 Okt 2022 pada 09.19
--- Versi server: 10.4.24-MariaDB
--- Versi PHP: 8.1.6
+-- Host: localhost:3306
+-- Generation Time: Jan 24, 2024 at 07:56 PM
+-- Server version: 10.11.6-MariaDB-log
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,24 +18,24 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `gresda-food`
+-- Database: `gresda_food`
 --
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_admin`
+-- Table structure for table `tbl_admin`
 --
 
 CREATE TABLE `tbl_admin` (
   `id` int(10) UNSIGNED NOT NULL,
-  `full_name` varchar(100) CHARACTER SET utf8 COLLATE utf8_estonian_ci NOT NULL,
-  `username` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `full_name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_estonian_ci NOT NULL,
+  `username` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_admin`
+-- Dumping data for table `tbl_admin`
 --
 
 INSERT INTO `tbl_admin` (`id`, `full_name`, `username`, `password`) VALUES
@@ -44,19 +44,19 @@ INSERT INTO `tbl_admin` (`id`, `full_name`, `username`, `password`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_cart`
+-- Table structure for table `tbl_cart`
 --
 
 CREATE TABLE `tbl_cart` (
   `cart_id` int(10) UNSIGNED NOT NULL,
-  `order_id` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `order_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `user_id` int(10) NOT NULL,
   `tgl_order` timestamp NULL DEFAULT current_timestamp(),
-  `status` varchar(10) CHARACTER SET utf8 NOT NULL DEFAULT 'Cart'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `status` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT 'Cart'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_cart`
+-- Dumping data for table `tbl_cart`
 --
 
 INSERT INTO `tbl_cart` (`cart_id`, `order_id`, `user_id`, `tgl_order`, `status`) VALUES
@@ -68,18 +68,18 @@ INSERT INTO `tbl_cart` (`cart_id`, `order_id`, `user_id`, `tgl_order`, `status`)
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_category`
+-- Table structure for table `tbl_category`
 --
 
 CREATE TABLE `tbl_category` (
   `id` int(10) UNSIGNED NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `category` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `active` varchar(10) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `active` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_category`
+-- Dumping data for table `tbl_category`
 --
 
 INSERT INTO `tbl_category` (`id`, `name`, `category`, `active`) VALUES
@@ -95,23 +95,23 @@ INSERT INTO `tbl_category` (`id`, `name`, `category`, `active`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_confirmorder`
+-- Table structure for table `tbl_confirmorder`
 --
 
 CREATE TABLE `tbl_confirmorder` (
   `id` int(10) UNSIGNED NOT NULL,
-  `order_id` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `order_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `user_id` int(10) NOT NULL,
-  `payment` varchar(10) CHARACTER SET utf8 NOT NULL,
-  `rekening_name` varchar(25) CHARACTER SET utf8 NOT NULL,
-  `image_name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `alamat` varchar(255) CHARACTER SET utf8 NOT NULL,
+  `payment` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `rekening_name` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `alamat` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `tgl_pay` date NOT NULL,
   `tgl_submit` timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_confirmorder`
+-- Dumping data for table `tbl_confirmorder`
 --
 
 INSERT INTO `tbl_confirmorder` (`id`, `order_id`, `user_id`, `payment`, `rekening_name`, `image_name`, `alamat`, `tgl_pay`, `tgl_submit`) VALUES
@@ -123,18 +123,18 @@ INSERT INTO `tbl_confirmorder` (`id`, `order_id`, `user_id`, `payment`, `rekenin
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_contact`
+-- Table structure for table `tbl_contact`
 --
 
 CREATE TABLE `tbl_contact` (
   `id` int(10) UNSIGNED NOT NULL,
-  `customer_name` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `customer_email` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `customer_message` varchar(300) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `customer_name` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `customer_email` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `customer_message` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_contact`
+-- Dumping data for table `tbl_contact`
 --
 
 INSERT INTO `tbl_contact` (`id`, `customer_name`, `customer_email`, `customer_message`) VALUES
@@ -143,18 +143,18 @@ INSERT INTO `tbl_contact` (`id`, `customer_name`, `customer_email`, `customer_me
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_detailorder`
+-- Table structure for table `tbl_detailorder`
 --
 
 CREATE TABLE `tbl_detailorder` (
   `detail_id` int(10) UNSIGNED NOT NULL,
-  `order_id` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `order_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `food_id` int(10) NOT NULL,
   `qty` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_detailorder`
+-- Dumping data for table `tbl_detailorder`
 --
 
 INSERT INTO `tbl_detailorder` (`detail_id`, `order_id`, `food_id`, `qty`) VALUES
@@ -170,21 +170,21 @@ INSERT INTO `tbl_detailorder` (`detail_id`, `order_id`, `food_id`, `qty`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_food`
+-- Table structure for table `tbl_food`
 --
 
 CREATE TABLE `tbl_food` (
   `food_id` int(10) UNSIGNED NOT NULL,
-  `category` varchar(100) CHARACTER SET utf8 NOT NULL,
-  `name` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `category` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `price` decimal(10,0) NOT NULL,
-  `description` text CHARACTER SET utf8 NOT NULL,
-  `image_name` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `active` varchar(10) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `active` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_food`
+-- Dumping data for table `tbl_food`
 --
 
 INSERT INTO `tbl_food` (`food_id`, `category`, `name`, `price`, `description`, `image_name`, `active`) VALUES
@@ -224,7 +224,7 @@ INSERT INTO `tbl_food` (`food_id`, `category`, `name`, `price`, `description`, `
 (34, 'soup-salad', 'Chicken Cream Soup', '15', 'Cream soup with chicken and corn kernel served with garlic bread.', '2146.jpg', 'Yes'),
 (35, 'soup-salad', 'Smoked Beef Cream Soup', '15', 'Cream soup with smoked beef and corn kernel served with garlic bread.', '5558.jpg', 'Yes'),
 (36, 'soup-salad', 'Organic Garden Salad', '15', 'Organic mix lettuce, dressing with balsamic, topped with smoke beef sliced, parmesan cheese served with garlic bread', '1763.jpg', 'Yes'),
-(37, 'prime-steak', 'Caesar Chicken Salad', '20', 'Organic romaine lettuce, grilled chicken, boiled egg, caesar dressing, parmesan cheese served with garlic bread.', '4568.jpg', 'Yes'),
+(37, 'soup-salad', 'Caesar Chicken Salad', '20', 'Organic romaine lettuce, grilled chicken, boiled egg, caesar dressing, parmesan cheese served with garlic bread.', '4568.jpg', 'Yes'),
 (38, 'soup-salad', 'US Prawn Salad', '25', 'Organic lettuce, dressing with balsamic topped with grilled US prawn, parmesan cheese served with garlic bread.', '6562.jpg', 'Yes'),
 (39, 'soup-salad', 'Beef Salad', '25', 'Organic lettuce, dressing with balsamic topped wih sauted beef, and parmesan cheese and served with garlic bread.', '7584.jpg', 'Yes'),
 (40, 'light-meal', 'French Fries', '15', 'Fried potato straight cut 200gr.', '2960.jpg', 'Yes'),
@@ -245,7 +245,7 @@ INSERT INTO `tbl_food` (`food_id`, `category`, `name`, `price`, `description`, `
 (55, 'drink', 'Electric f(x)', '13', 'Korean squash rasa Blueberry & Lime', '4250.jpg', 'Yes'),
 (56, 'drink', 'Sone Fantasy', '13', 'Korean squash rasa Strawberry', '6912.jpg', 'Yes'),
 (57, 'drink', 'I Got7 Love', '13', 'Korean squash rasa Lemon & Strawberry', '8590.jpg', 'Yes'),
-(58, 'prime-steak', 'Hottest Legend', '13', 'Korean squash rasa Blue Pineapple', '7951.jpg', 'Yes'),
+(58, 'drink', 'Hottest Legend', '13', 'Korean squash rasa Blue Pineapple', '7951.jpg', 'Yes'),
 (59, 'drink', 'Elf Miracle', '13', 'Korean squash rasa Blueberry', '6208.jpg', 'Yes'),
 (60, 'drink', 'Shawol Oxygen', '13', 'Korean squash rasa Lychee', '3693.jpg', 'Yes'),
 (61, 'drink', 'Daisy Twinkle', '13', 'Korean squash rasa Respberry', '1762.jpg', 'Yes'),
@@ -263,19 +263,19 @@ INSERT INTO `tbl_food` (`food_id`, `category`, `name`, `price`, `description`, `
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_payment`
+-- Table structure for table `tbl_payment`
 --
 
 CREATE TABLE `tbl_payment` (
   `id` int(10) UNSIGNED NOT NULL,
-  `metode` varchar(25) CHARACTER SET utf8 NOT NULL,
-  `rekening_number` varchar(25) CHARACTER SET utf8 NOT NULL,
-  `image_name` text CHARACTER SET utf8 NOT NULL,
-  `an` varchar(25) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `metode` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `rekening_number` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `image_name` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `an` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_payment`
+-- Dumping data for table `tbl_payment`
 --
 
 INSERT INTO `tbl_payment` (`id`, `metode`, `rekening_number`, `image_name`, `an`) VALUES
@@ -289,21 +289,21 @@ INSERT INTO `tbl_payment` (`id`, `metode`, `rekening_number`, `image_name`, `an`
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_review`
+-- Table structure for table `tbl_review`
 --
 
 CREATE TABLE `tbl_review` (
   `id` int(10) UNSIGNED NOT NULL,
-  `order_id` varchar(100) CHARACTER SET utf8 NOT NULL,
+  `order_id` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `user_id` int(10) NOT NULL,
   `rating` decimal(10,1) NOT NULL,
   `tgl_review` date DEFAULT current_timestamp(),
-  `message` varchar(280) CHARACTER SET utf8 NOT NULL,
-  `active` varchar(10) CHARACTER SET utf8 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `message` varchar(280) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `active` varchar(10) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_review`
+-- Dumping data for table `tbl_review`
 --
 
 INSERT INTO `tbl_review` (`id`, `order_id`, `user_id`, `rating`, `tgl_review`, `message`, `active`) VALUES
@@ -315,19 +315,19 @@ INSERT INTO `tbl_review` (`id`, `order_id`, `user_id`, `rating`, `tgl_review`, `
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tbl_users`
+-- Table structure for table `tbl_users`
 --
 
 CREATE TABLE `tbl_users` (
   `id` int(10) UNSIGNED NOT NULL,
-  `img_user` varchar(255) CHARACTER SET utf8 NOT NULL,
-  `username` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `email` varchar(150) CHARACTER SET utf8 NOT NULL,
-  `password` varchar(150) CHARACTER SET utf32 NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `img_user` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `username` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `email` varchar(150) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `password` varchar(150) CHARACTER SET utf32 COLLATE utf32_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tbl_users`
+-- Dumping data for table `tbl_users`
 --
 
 INSERT INTO `tbl_users` (`id`, `img_user`, `username`, `email`, `password`) VALUES
@@ -341,38 +341,38 @@ INSERT INTO `tbl_users` (`id`, `img_user`, `username`, `email`, `password`) VALU
 --
 
 --
--- Indeks untuk tabel `tbl_admin`
+-- Indexes for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_cart`
+-- Indexes for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
   ADD PRIMARY KEY (`cart_id`),
   ADD KEY `order_id` (`order_id`);
 
 --
--- Indeks untuk tabel `tbl_category`
+-- Indexes for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_confirmorder`
+-- Indexes for table `tbl_confirmorder`
 --
 ALTER TABLE `tbl_confirmorder`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_contact`
+-- Indexes for table `tbl_contact`
 --
 ALTER TABLE `tbl_contact`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_detailorder`
+-- Indexes for table `tbl_detailorder`
 --
 ALTER TABLE `tbl_detailorder`
   ADD PRIMARY KEY (`detail_id`),
@@ -380,89 +380,89 @@ ALTER TABLE `tbl_detailorder`
   ADD KEY `food_id` (`food_id`);
 
 --
--- Indeks untuk tabel `tbl_food`
+-- Indexes for table `tbl_food`
 --
 ALTER TABLE `tbl_food`
   ADD PRIMARY KEY (`food_id`);
 
 --
--- Indeks untuk tabel `tbl_payment`
+-- Indexes for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_review`
+-- Indexes for table `tbl_review`
 --
 ALTER TABLE `tbl_review`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `tbl_users`
+-- Indexes for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_admin`
+-- AUTO_INCREMENT for table `tbl_admin`
 --
 ALTER TABLE `tbl_admin`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_cart`
+-- AUTO_INCREMENT for table `tbl_cart`
 --
 ALTER TABLE `tbl_cart`
   MODIFY `cart_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_category`
+-- AUTO_INCREMENT for table `tbl_category`
 --
 ALTER TABLE `tbl_category`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_confirmorder`
+-- AUTO_INCREMENT for table `tbl_confirmorder`
 --
 ALTER TABLE `tbl_confirmorder`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_contact`
+-- AUTO_INCREMENT for table `tbl_contact`
 --
 ALTER TABLE `tbl_contact`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_detailorder`
+-- AUTO_INCREMENT for table `tbl_detailorder`
 --
 ALTER TABLE `tbl_detailorder`
   MODIFY `detail_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_food`
+-- AUTO_INCREMENT for table `tbl_food`
 --
 ALTER TABLE `tbl_food`
   MODIFY `food_id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=72;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_payment`
+-- AUTO_INCREMENT for table `tbl_payment`
 --
 ALTER TABLE `tbl_payment`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_review`
+-- AUTO_INCREMENT for table `tbl_review`
 --
 ALTER TABLE `tbl_review`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT untuk tabel `tbl_users`
+-- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
